@@ -1,0 +1,19 @@
+﻿services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: your_username
+      POSTGRES_PASSWORD: your_password
+    ports:
+      - 5432:5432
+    volumes:
+      - instagram-copy-volume:/var/lib/postgresql/data
+
+volumes:
+  instagram-copy-volume:
+#  instagram-copy-backend:
+#    image: instagram-copy-backend
+#    build:
+#      context: .
+#      dockerfile: instagram-copy-backend/Dockerfile
