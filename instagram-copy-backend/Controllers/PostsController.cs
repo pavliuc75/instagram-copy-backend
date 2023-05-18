@@ -18,7 +18,7 @@ public class PostsController : ControllerBase
     [HttpGet]
     public IActionResult GetPosts()
     {
-        return Ok("hello loh");
+        return Ok("loh");
         // return Ok(_postsService.GetPosts());
     }
 

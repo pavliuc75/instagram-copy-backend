@@ -26,13 +26,13 @@ jobs:
           docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/instagram-copy-backend:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/instagram-copy-backend:${{ github.sha }}    
 
-#      - name: 'Set AKS context'
-#        uses: azure/aks-set-context@v1
-#        with:
-#          creds: ${{ secrets.AZURE_CREDENTIALS }}
-#          resource-group: ${{ secrets.RESOURCE_GROUP }}
-#          cluster-name: instagram-copy-aks
-#
-#      - name: 'Deploy to AKS'
-#        run: |
-#          kubectl set image deployment/instagram-copy-frontend-deployment instagram-copy-frontend-container=${{ secrets.REGISTRY_LOGIN_SERVER }}/instagram-copy-frontend:${{ github.sha }}
+      - name: 'Set AKS context'
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          cluster-name: instagram-copy-aks
+
+      - name: 'Deploy to AKS'
+        run: |
+          kubectl set image deployment/instagram-copy-backend-deployment instagram-copy-backend-container=${{ secrets.REGISTRY_LOGIN_SERVER }}/instagram-copy-backend:${{ github.sha }}
