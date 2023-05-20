@@ -1,5 +1,5 @@
 ﻿services:
-  postgres:
+  instagram-copy-db:
     image: postgres:latest
     restart: always
     environment:
@@ -10,10 +10,19 @@
     volumes:
       - instagram-copy-volume:/var/lib/postgresql/data
 
+  instagram-copy-backend:
+    image: instagram-copy-backend-img:1545
+    restart: always
+    ports:
+      - 8080:80
+    depends_on:
+      - instagram-copy-db
+    environment:
+      - DbSettings__Host=instagram-copy-db
+      - DbSettings__Port=5432
+      - DbSettings__Database=instagram-copy-db
+      - DbSettings__Username=your_username
+      - DbSettings__Password=your_password
+          
 volumes:
   instagram-copy-volume:
-#  instagram-copy-backend:
-#    image: instagram-copy-backend
-#    build:
-#      context: .
-#      dockerfile: instagram-copy-backend/Dockerfile

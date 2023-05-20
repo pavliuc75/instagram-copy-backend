@@ -18,3 +18,20 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+          env:  
+            - name: DbSettings__Host
+              value: instagram-copy-db-service.default.svc.cluster.local
+            - name: DbSettings__Port
+              value: "5432"            
+            - name: DbSettings__Database
+              value: instagram-copy-db
+            - name: DbSettings__Username
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: instagram-copy-db-username        
+            - name: DbSettings__Password
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: instagram-copy-db-password

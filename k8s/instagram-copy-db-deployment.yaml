@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: instagram-copy-db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: instagram-copy-db
+  template:
+    metadata:
+      labels:
+        app: instagram-copy-db
+    spec:
+      containers:
+        - name: instagram-copy-db-container
+          image: postgres:latest
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: instagram-copy-db-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: instagram-copy-db-password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: instagram-copy-volume
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: instagram-copy-volume
+          persistentVolumeClaim:
+            claimName: instagram-copy-pvc

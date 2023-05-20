@@ -8,38 +8,36 @@ namespace instagram_copy_backend.Controllers;
 [Route("[controller]")]
 public class PostsController : ControllerBase
 {
-    // private readonly PostsService _postsService;
+    private readonly PostsService _postsService;
 
-    // public PostsController(PostsService postsService)
-    // {
-        // _postsService = postsService;
-    // }
+    public PostsController(PostsService postsService)
+    {
+        _postsService = postsService;
+    }
 
     [HttpGet]
     public IActionResult GetPosts()
     {
-        return Ok("loh");
-        // return Ok(_postsService.GetPosts());
+        return Ok(_postsService.GetPosts());
     }
 
+    [HttpGet("{id}")]
+    public IActionResult GetPost(long id)
+    {
+        return Ok(_postsService.GetPost(id));
+    }
 
-    // [HttpGet("{id}")]
-    // public IActionResult GetPost(long id)
-    // {
-        // return Ok(_postsService.GetPost(id));
-    // }
+    [HttpPost]
+    public IActionResult CreatePost([FromBody] Post post)
+    {
+        var createdPost = _postsService.CreatePost(post);
+        return CreatedAtAction(nameof(GetPost), new {id = createdPost.Id}, createdPost);
+    }
 
-    // [HttpPost]
-    // public IActionResult CreatePost([FromBody] Post post)
-    // {
-        // var createdPost = _postsService.CreatePost(post);
-        // return CreatedAtAction(nameof(GetPost), new { id = createdPost.Id }, createdPost);
-    // }
-
-    // [HttpDelete("{id}")]
-    // public IActionResult DeletePost(long id)
-    // {
-        // _postsService.DeletePost(id);
-        // return Ok();
-    // }
+    [HttpDelete("{id}")]
+    public IActionResult DeletePost(long id)
+    {
+        _postsService.DeletePost(id);
+        return Ok();
+    }
 }
